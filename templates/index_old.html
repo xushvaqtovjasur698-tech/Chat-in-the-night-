@@ -1,0 +1,3378 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101015">
+<title>Bir kichik olam</title>
+
+<style>
+:root{
+    --bg:#0c0c10;
+    --bg2:#13131a;
+    --text:#f5f1ec;
+    --muted:#aaa4a0;
+    --line:rgba(255,255,255,.10);
+    --line-strong:rgba(255,255,255,.16);
+    --shadow:0 30px 80px rgba(0,0,0,.30);
+    --ease:cubic-bezier(.22,1,.36,1);
+
+    --accent:#d7a3a4;
+    --accent2:#9c91c6;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html,
+body{
+    margin:0;
+    min-height:100%;
+    background:var(--bg);
+    color:var(--text);
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        sans-serif;
+}
+
+button,
+input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+body{
+    overflow:hidden;
+}
+
+.screen{
+    position:fixed;
+    inset:0;
+    visibility:hidden;
+    opacity:0;
+    pointer-events:none;
+
+    transition:
+        opacity .7s var(--ease),
+        visibility .7s var(--ease);
+}
+
+.screen.active{
+    visibility:visible;
+    opacity:1;
+    pointer-events:auto;
+}
+
+button:focus-visible,
+input:focus-visible{
+    outline:2px solid rgba(215,163,164,.75);
+    outline-offset:3px;
+}
+
+
+/* =========================================================
+   AMBIENT
+========================================================= */
+
+.ambient{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+
+    background:
+        radial-gradient(
+            circle at 20% 15%,
+            rgba(214,163,164,.10),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 80% 75%,
+            rgba(152,140,199,.09),
+            transparent 34%
+        ),
+        radial-gradient(
+            circle at 45% 95%,
+            rgba(214,186,147,.06),
+            transparent 28%
+        ),
+        #0b0b0f;
+}
+
+.ambient::after{
+    content:"";
+    position:absolute;
+    inset:-20%;
+
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            transparent 0 25%,
+            rgba(255,255,255,.018) 45%,
+            transparent 68%
+        );
+
+    animation:
+        breathe 18s ease-in-out infinite alternate;
+}
+
+.dust{
+    position:absolute;
+    width:2px;
+    height:2px;
+    border-radius:50%;
+    background:rgba(255,255,255,.35);
+    animation:float linear infinite;
+    opacity:.25;
+}
+
+.dust:nth-child(1){
+    left:10%;
+    top:78%;
+    animation-duration:18s;
+}
+
+.dust:nth-child(2){
+    left:22%;
+    top:35%;
+    animation-duration:14s;
+    animation-delay:-4s;
+}
+
+.dust:nth-child(3){
+    left:36%;
+    top:64%;
+    animation-duration:22s;
+    animation-delay:-9s;
+}
+
+.dust:nth-child(4){
+    left:52%;
+    top:22%;
+    animation-duration:17s;
+    animation-delay:-2s;
+}
+
+.dust:nth-child(5){
+    left:67%;
+    top:71%;
+    animation-duration:20s;
+    animation-delay:-7s;
+}
+
+.dust:nth-child(6){
+    left:82%;
+    top:31%;
+    animation-duration:15s;
+    animation-delay:-5s;
+}
+
+.dust:nth-child(7){
+    left:92%;
+    top:82%;
+    animation-duration:19s;
+    animation-delay:-10s;
+}
+
+@keyframes float{
+    0%{
+        transform:translate3d(0,15vh,0);
+        opacity:0;
+    }
+
+    15%{
+        opacity:.25;
+    }
+
+    85%{
+        opacity:.25;
+    }
+
+    100%{
+        transform:translate3d(7vw,-18vh,0);
+        opacity:0;
+    }
+}
+
+@keyframes breathe{
+    from{
+        transform:
+            scale(.95)
+            translate3d(-1%,1%,0);
+    }
+
+    to{
+        transform:
+            scale(1.05)
+            translate3d(1%,-1%,0);
+    }
+}
+
+
+/* =========================================================
+   ENTRY
+========================================================= */
+
+#entry{
+    background:
+        linear-gradient(
+            160deg,
+            #0a0a0d,
+            #111118 55%,
+            #0b0b0f
+        );
+}
+
+.entry-wrap{
+    height:100%;
+
+    display:grid;
+    place-items:center;
+
+    padding:24px;
+
+    position:relative;
+}
+
+.entry-core{
+    width:min(470px,90vw);
+
+    text-align:center;
+
+    position:relative;
+    z-index:2;
+}
+
+.entry-mark{
+    width:86px;
+    height:86px;
+
+    margin:
+        0 auto
+        34px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    position:relative;
+
+    display:grid;
+    place-items:center;
+}
+
+.entry-mark::before,
+.entry-mark::after{
+    content:"";
+
+    position:absolute;
+
+    border:
+        1px solid
+        rgba(215,163,164,.18);
+
+    border-radius:50%;
+
+    inset:-16px;
+
+    animation:
+        ring 4.8s ease-in-out infinite;
+}
+
+.entry-mark::after{
+    inset:-32px;
+
+    animation-delay:-2.4s;
+}
+
+.entry-mark span{
+    width:9px;
+    height:9px;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f4d8d8,
+            #8f83ba
+        );
+
+    box-shadow:
+        0 0 35px
+        rgba(215,163,164,.34);
+}
+
+@keyframes ring{
+    0%,100%{
+        transform:scale(.92);
+        opacity:.3;
+    }
+
+    50%{
+        transform:scale(1.08);
+        opacity:.7;
+    }
+}
+
+.entry-kicker{
+    letter-spacing:.34em;
+    text-transform:uppercase;
+    font-size:10px;
+    color:#847f7d;
+}
+
+.entry-title{
+    font:
+        400
+        clamp(44px,8vw,82px)/.92
+        Georgia,
+        serif;
+
+    margin:18px 0 14px;
+
+    letter-spacing:-.05em;
+}
+
+.entry-sub{
+    color:#958f8c;
+    line-height:1.7;
+    font-size:14px;
+    max-width:390px;
+    margin:0 auto;
+}
+
+.entry-gate{
+    margin:34px auto 0;
+
+    display:grid;
+    gap:12px;
+
+    max-width:300px;
+}
+
+.entry-input{
+    width:100%;
+    height:54px;
+
+    border:
+        1px solid
+        var(--line);
+
+    background:
+        rgba(255,255,255,.025);
+
+    color:#fff;
+
+    text-align:center;
+
+    border-radius:14px;
+
+    padding:0 15px;
+}
+
+.entry-input::placeholder{
+    color:#696366;
+}
+
+.entry-button{
+    height:52px;
+
+    border-radius:14px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.18);
+
+    background:#eee4dc;
+
+    color:#1b1717;
+
+    transition:
+        .4s var(--ease);
+}
+
+.entry-button:hover{
+    transform:translateY(-2px);
+}
+
+.entry-button:disabled{
+    opacity:.6;
+    cursor:wait;
+}
+
+.entry-error{
+    min-height:18px;
+
+    color:#d8a1a5;
+
+    font-size:12px;
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+#intro{
+    background:#0a0a0d;
+}
+
+.intro-stage{
+    height:100%;
+
+    display:grid;
+    place-items:center;
+
+    position:relative;
+}
+
+.intro-planet{
+    width:min(42vw,290px);
+
+    aspect-ratio:1;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle at 34% 30%,
+            rgba(255,255,255,.86) 0 1.2%,
+            rgba(236,207,190,.42) 3%,
+            rgba(147,127,176,.23) 16%,
+            rgba(20,18,25,.94) 58%,
+            #07070a 76%
+        );
+
+    box-shadow:
+        0 0 80px
+        rgba(205,175,171,.12),
+        inset -35px -45px 65px
+        rgba(0,0,0,.56);
+
+    position:relative;
+
+    animation:
+        planet 7s ease-in-out infinite;
+}
+
+.intro-planet::before{
+    content:"";
+
+    position:absolute;
+    inset:-18%;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    animation:
+        orbit 13s linear infinite;
+}
+
+.intro-planet::after{
+    content:"";
+
+    position:absolute;
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#eee1cf;
+
+    top:11%;
+    left:71%;
+
+    box-shadow:
+        -40px 58px
+        rgba(255,255,255,.42),
+
+        72px 8px
+        rgba(215,163,164,.45),
+
+        -65px -25px
+        rgba(152,140,199,.36);
+
+    animation:
+        stars 9s ease-in-out infinite;
+}
+
+@keyframes planet{
+    0%,100%{
+        transform:
+            translate3d(0,0,0)
+            scale(1);
+    }
+
+    50%{
+        transform:
+            translate3d(0,-12px,0)
+            scale(1.015);
+    }
+}
+
+@keyframes orbit{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes stars{
+    50%{
+        opacity:.5;
+        transform:
+            translate3d(5px,-6px,0);
+    }
+}
+
+.intro-fade{
+    position:absolute;
+    inset:0;
+
+    background:
+        radial-gradient(
+            circle,
+            transparent 0 27%,
+            rgba(8,8,12,.5) 68%,
+            #08080b 100%
+        );
+}
+
+
+/* =========================================================
+   MAIN WORLD
+========================================================= */
+
+#world{
+    background:
+        linear-gradient(
+            180deg,
+            #0c0c10,
+            #111116
+        );
+}
+
+.world-layer{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+}
+
+.world-glow{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    width:min(56vw,650px);
+
+    aspect-ratio:1;
+
+    transform:
+        translate(-50%,-50%);
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(215,163,164,.11),
+            rgba(156,145,198,.05) 32%,
+            transparent 68%
+        );
+
+    filter:blur(8px);
+
+    animation:
+        worldPulse 11s ease-in-out infinite alternate;
+}
+
+@keyframes worldPulse{
+    from{
+        transform:
+            translate(-50%,-50%)
+            scale(.95);
+    }
+
+    to{
+        transform:
+            translate(-50%,-50%)
+            scale(1.07);
+    }
+}
+
+.center-surface{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    width:min(48vw,530px);
+
+    aspect-ratio:1;
+
+    transform:
+        translate(-50%,-50%);
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    display:grid;
+    place-items:center;
+}
+
+.center-surface::before{
+    content:"";
+
+    position:absolute;
+
+    inset:10%;
+
+    border-radius:50%;
+
+    border:
+        1px dashed
+        rgba(255,255,255,.045);
+
+    animation:
+        slowspin 30s linear infinite;
+}
+
+.center-surface::after{
+    content:"";
+
+    position:absolute;
+
+    inset:22%;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle at 32% 28%,
+            rgba(249,237,224,.78),
+            rgba(209,170,169,.24) 12%,
+            rgba(111,101,142,.18) 28%,
+            rgba(16,15,21,.96) 61%,
+            #07070b 80%
+        );
+
+    box-shadow:
+        0 0 60px
+        rgba(218,176,176,.10),
+
+        inset -40px -42px 65px
+        rgba(0,0,0,.6);
+
+    animation:
+        coreFloat 9s ease-in-out infinite;
+}
+
+@keyframes slowspin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes coreFloat{
+    0%,100%{
+        transform:
+            scale(1)
+            translateY(0);
+    }
+
+    50%{
+        transform:
+            scale(1.03)
+            translateY(-10px);
+    }
+}
+
+.center-hit{
+    position:absolute;
+
+    inset:34%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.018);
+
+    backdrop-filter:blur(8px);
+
+    z-index:4;
+
+    display:grid;
+    place-items:center;
+
+    transition:.5s var(--ease);
+
+    color:#d9d2cd;
+}
+
+.center-hit:hover{
+    transform:scale(1.04);
+
+    border-color:
+        rgba(215,163,164,.32);
+
+    background:
+        rgba(255,255,255,.04);
+}
+
+.center-hit span{
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:#a6a09e;
+}
+
+.center-note{
+    position:absolute;
+
+    left:50%;
+
+    top:
+        calc(
+            50% +
+            min(24vw,265px)
+        );
+
+    transform:
+        translate(-50%,0);
+
+    color:#777171;
+
+    font-size:11px;
+
+    letter-spacing:.09em;
+
+    white-space:nowrap;
+
+    opacity:.75;
+
+    transition:
+        opacity .4s ease;
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar{
+    position:absolute;
+
+    left:24px;
+    right:24px;
+    top:22px;
+
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    z-index:20;
+}
+
+.icon{
+    width:44px;
+    height:44px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        var(--line);
+
+    background:
+        rgba(255,255,255,.025);
+
+    color:#eee;
+
+    display:grid;
+    place-items:center;
+
+    transition:.35s var(--ease);
+
+    backdrop-filter:blur(12px);
+}
+
+.icon:hover{
+    transform:translateY(-2px);
+
+    border-color:
+        var(--line-strong);
+}
+
+.hamb{
+    display:grid;
+    gap:4px;
+}
+
+.hamb i{
+    display:block;
+
+    width:17px;
+    height:1px;
+
+    background:#eee;
+}
+
+.profile-pill{
+    padding:9px 14px;
+
+    border:
+        1px solid
+        var(--line);
+
+    border-radius:999px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:12px;
+
+    color:#c6c0bc;
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+.menu-panel{
+    position:absolute;
+
+    left:20px;
+    top:78px;
+
+    width:
+        min(
+            290px,
+            calc(100vw - 40px)
+        );
+
+    background:
+        rgba(17,17,23,.88);
+
+    border:
+        1px solid
+        var(--line);
+
+    border-radius:20px;
+
+    padding:12px;
+
+    z-index:25;
+
+    backdrop-filter:blur(24px);
+
+    box-shadow:var(--shadow);
+
+    transform:
+        translateY(-8px);
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.45s var(--ease);
+}
+
+.menu-panel.open{
+    transform:
+        translateY(0);
+
+    opacity:1;
+    visibility:visible;
+}
+
+.menu-item{
+    width:100%;
+
+    display:grid;
+
+    grid-template-columns:
+        34px 1fr;
+
+    gap:10px;
+
+    align-items:center;
+
+    text-align:left;
+
+    padding:12px;
+
+    border:0;
+
+    background:transparent;
+
+    color:#e9e4e0;
+
+    border-radius:14px;
+
+    transition:.3s var(--ease);
+}
+
+.menu-item:hover{
+    background:
+        rgba(255,255,255,.045);
+}
+
+.menu-num{
+    font-size:10px;
+    color:#7e7876;
+}
+
+.menu-copy strong{
+    display:block;
+
+    font-size:13px;
+    font-weight:550;
+}
+
+.menu-copy span{
+    display:block;
+
+    margin-top:3px;
+
+    color:#7f7a79;
+
+    font-size:10px;
+}
+
+.menu-sep{
+    height:1px;
+
+    background:
+        var(--line);
+
+    margin:
+        9px 4px;
+}
+
+
+/* =========================================================
+   MOOD
+========================================================= */
+
+.mood-card{
+    position:absolute;
+
+    right:24px;
+    bottom:24px;
+
+    width:
+        min(
+            320px,
+            calc(100vw - 48px)
+        );
+
+    border:
+        1px solid
+        var(--line);
+
+    background:
+        rgba(17,17,22,.64);
+
+    backdrop-filter:blur(18px);
+
+    border-radius:18px;
+
+    padding:14px;
+
+    z-index:15;
+
+    transform:
+        translateY(16px);
+
+    opacity:0;
+
+    animation:
+        softIn 1s 2.4s var(--ease)
+        forwards;
+}
+
+.mood-card small{
+    color:#777170;
+
+    font-size:9px;
+
+    letter-spacing:.18em;
+
+    text-transform:uppercase;
+}
+
+.mood-card p{
+    margin:
+        8px 0 11px;
+
+    color:#d7d0cc;
+
+    font-size:12px;
+}
+
+.mood-actions{
+    display:flex;
+
+    gap:7px;
+
+    flex-wrap:wrap;
+}
+
+.mood-btn{
+    border:
+        1px solid
+        var(--line);
+
+    background:transparent;
+
+    color:#c5bfbb;
+
+    border-radius:999px;
+
+    padding:7px 10px;
+
+    font-size:10px;
+
+    transition:.3s var(--ease);
+}
+
+.mood-btn:hover{
+    background:
+        rgba(255,255,255,.04);
+}
+
+@keyframes softIn{
+    to{
+        transform:none;
+        opacity:1;
+    }
+}
+
+
+/* =========================================================
+   OVERLAY / SHEET
+========================================================= */
+
+.overlay{
+    position:absolute;
+
+    inset:0;
+
+    background:
+        rgba(0,0,0,.42);
+
+    backdrop-filter:blur(9px);
+
+    z-index:60;
+
+    display:flex;
+
+    justify-content:flex-start;
+    align-items:stretch;
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.45s var(--ease);
+}
+
+.overlay.open{
+    opacity:1;
+    visibility:visible;
+}
+
+.sheet{
+    width:
+        min(580px,100%);
+
+    height:100%;
+
+    background:#111116;
+
+    border-right:
+        1px solid
+        var(--line);
+
+    padding:28px;
+
+    overflow:auto;
+
+    transform:
+        translateX(-20px);
+
+    transition:
+        .55s var(--ease);
+}
+
+.overlay.open .sheet{
+    transform:none;
+}
+
+.sheet-head{
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:26px;
+}
+
+.sheet-title{
+    font:
+        400
+        34px
+        Georgia,
+        serif;
+}
+
+.sheet p{
+    color:#94908f;
+
+    font-size:13px;
+
+    line-height:1.75;
+}
+
+.close{
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        var(--line);
+
+    background:transparent;
+
+    color:#eee;
+}
+
+.placeholder{
+    border:
+        1px dashed
+        rgba(255,255,255,.11);
+
+    padding:24px;
+
+    border-radius:16px;
+
+    color:#8d8886;
+
+    margin-top:18px;
+
+    font-size:12px;
+
+    line-height:1.7;
+}
+
+.field{
+    display:grid;
+
+    gap:8px;
+
+    margin-top:18px;
+}
+
+.field label{
+    font-size:11px;
+    color:#807b79;
+}
+
+.field input{
+    height:46px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid
+        var(--line);
+
+    border-radius:12px;
+
+    color:#fff;
+
+    padding:
+        0 13px;
+}
+
+.row{
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+
+    margin-top:14px;
+}
+
+.soft-btn{
+    border:
+        1px solid
+        var(--line);
+
+    background:
+        rgba(255,255,255,.02);
+
+    color:#eee;
+
+    padding:10px 13px;
+
+    border-radius:12px;
+}
+
+.soft-btn.primary{
+    background:#ede2da;
+    color:#1b1716;
+}
+
+@media(max-width:800px){
+    body{
+        overflow:auto;
+    }
+
+    .center-surface{
+        width:
+            min(90vw,520px);
+    }
+
+    .center-note{
+        top:
+            calc(50% + 46vw);
+    }
+
+    .mood-card{
+        left:24px;
+        right:24px;
+        width:auto;
+    }
+
+    .topbar{
+        left:16px;
+        right:16px;
+    }
+
+    .menu-panel{
+        left:14px;
+        top:70px;
+    }
+
+    .entry-planet{
+        width:62vw;
+    }
+
+    .sheet{
+        padding:23px 20px;
+    }
+
+    .sheet-title{
+        font-size:30px;
+    }
+}
+
+@media(max-width:520px){
+    .center-surface{
+        width:92vw;
+    }
+
+    .entry-title{
+        font-size:48px;
+    }
+
+    .mood-card{
+        bottom:16px;
+        left:16px;
+        right:16px;
+    }
+
+    .topbar{
+        top:16px;
+    }
+
+    .menu-panel{
+        width:
+            calc(100vw - 28px);
+    }
+
+    .sheet{
+        padding:
+            22px 18px;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    *,
+    *::before,
+    *::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="ambient" aria-hidden="true">
+    <span class="dust"></span>
+    <span class="dust"></span>
+    <span class="dust"></span>
+    <span class="dust"></span>
+    <span class="dust"></span>
+    <span class="dust"></span>
+    <span class="dust"></span>
+</div>
+
+
+<!-- =========================================================
+     ENTRY
+========================================================= -->
+
+<section
+    id="entry"
+    class="screen active"
+>
+
+    <div class="entry-wrap">
+
+        <div class="entry-core">
+
+            <div class="entry-mark">
+                <span></span>
+            </div>
+
+            <div class="entry-kicker">
+                bir kichik olam
+            </div>
+
+            <h1 class="entry-title">
+                Kirish.
+            </h1>
+
+            <p class="entry-sub">
+                Bu yerda har kim
+                o‘z eshigidan kiradi.
+            </p>
+
+            <div class="entry-gate">
+
+                <input
+                    id="accessCode"
+                    class="entry-input"
+                    type="password"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    placeholder="Kirish kodi"
+                >
+
+                <div
+                    id="entryError"
+                    class="entry-error"
+                    aria-live="polite"
+                ></div>
+
+                <button
+                    id="entryButton"
+                    class="entry-button"
+                    type="button"
+                >
+                    Davom etish
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     INTRO
+========================================================= -->
+
+<section
+    id="intro"
+    class="screen"
+>
+
+    <div class="intro-stage">
+
+        <div
+            class="intro-planet"
+            aria-hidden="true"
+        ></div>
+
+        <div
+            class="intro-fade"
+            aria-hidden="true"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     NAME
+========================================================= -->
+
+<section
+    id="nameGate"
+    class="screen"
+>
+
+    <div class="entry-wrap">
+
+        <div class="entry-core">
+
+            <div class="entry-kicker">
+                birinchi marta
+            </div>
+
+            <h1
+                class="entry-title"
+                style="
+                    font-size:
+                    clamp(38px,7vw,64px);
+                "
+            >
+                Isming?
+            </h1>
+
+            <p class="entry-sub">
+                Bu nom keyin kerakli
+                joylarda sen bilan birga yuradi.
+            </p>
+
+            <div class="entry-gate">
+
+                <input
+                    id="nameInput"
+                    class="entry-input"
+                    type="text"
+                    maxlength="40"
+                    autocomplete="name"
+                    placeholder="Isming"
+                >
+
+                <div
+                    id="nameError"
+                    class="entry-error"
+                    aria-live="polite"
+                ></div>
+
+                <button
+                    id="nameButton"
+                    class="entry-button"
+                    type="button"
+                >
+                    Kirish
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     MAIN WORLD
+========================================================= -->
+
+<section
+    id="world"
+    class="screen"
+>
+
+    <div class="world-layer">
+
+        <div class="world-glow"></div>
+
+        <div class="center-surface">
+
+            <button
+                id="centerHit"
+                class="center-hit"
+                type="button"
+            >
+                <span>
+                    tegib ko‘r
+                </span>
+            </button>
+
+        </div>
+
+        <div
+            id="centerNote"
+            class="center-note"
+        >
+            hammasi sekin o‘zgaradi
+        </div>
+
+    </div>
+
+
+    <header class="topbar">
+
+        <button
+            id="menuButton"
+            class="icon"
+            type="button"
+            aria-label="Menyu"
+        >
+            <span class="hamb">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        </button>
+
+        <div
+            id="profilePill"
+            class="profile-pill"
+        >
+            —
+        </div>
+
+    </header>
+
+
+    <!-- MENU -->
+
+    <aside
+        id="menuPanel"
+        class="menu-panel"
+    >
+
+        <button
+            class="menu-item"
+            data-sheet="chat"
+            type="button"
+        >
+            <span class="menu-num">
+                01
+            </span>
+
+            <span class="menu-copy">
+                <strong>
+                    Chat
+                </strong>
+
+                <span>
+                    oddiy suhbat
+                </span>
+            </span>
+        </button>
+
+
+        <button
+            class="menu-item"
+            data-sheet="special"
+            type="button"
+        >
+            <span class="menu-num">
+                02
+            </span>
+
+            <span class="menu-copy">
+                <strong>
+                    Maxsus xabarlar
+                </strong>
+
+                <span>
+                    turli joylarda paydo bo‘ladigan gaplar
+                </span>
+            </span>
+        </button>
+
+
+        <button
+            class="menu-item"
+            data-sheet="letters"
+            type="button"
+        >
+            <span class="menu-num">
+                03
+            </span>
+
+            <span class="menu-copy">
+                <strong>
+                    Xatlar
+                </strong>
+
+                <span>
+                    shoshilmay ochiladigan xatlar
+                </span>
+            </span>
+        </button>
+
+
+        <button
+            class="menu-item"
+            data-sheet="worlds"
+            type="button"
+        >
+            <span class="menu-num">
+                04
+            </span>
+
+            <span class="menu-copy">
+                <strong>
+                    Dunyolar
+                </strong>
+
+                <span>
+                    boshqa muhitlarga o‘tish
+                </span>
+            </span>
+        </button>
+
+
+        <button
+            class="menu-item"
+            data-sheet="environment"
+            type="button"
+        >
+            <span class="menu-num">
+                05
+            </span>
+
+            <span class="menu-copy">
+                <strong>
+                    Muhit
+                </strong>
+
+                <span>
+                    rang va atmosfera
+                </span>
+            </span>
+        </button>
+
+
+        <div class="menu-sep"></div>
+
+
+        <button
+            class="menu-item"
+            id="profileButton"
+            type="button"
+        >
+            <span class="menu-num">
+                06
+            </span>
+
+            <span class="menu-copy">
+                <strong>
+                    Profil
+                </strong>
+
+                <span>
+                    faqat ismni o‘zgartirish
+                </span>
+            </span>
+        </button>
+
+    </aside>
+
+
+    <!-- MOOD -->
+
+    <div class="mood-card">
+
+        <small>
+            kichik savol
+        </small>
+
+        <p id="moodQuestion">
+            Bugun qaysi muhit senga yaqin?
+        </p>
+
+        <div class="mood-actions">
+
+            <button
+                class="mood-btn"
+                data-mood="Tinch"
+                type="button"
+            >
+                Tinch
+            </button>
+
+            <button
+                class="mood-btn"
+                data-mood="Yaxshi"
+                type="button"
+            >
+                Yaxshi
+            </button>
+
+            <button
+                class="mood-btn"
+                data-mood="Sho‘x"
+                type="button"
+            >
+                Sho‘x
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- SHEET -->
+
+    <div
+        class="overlay"
+        id="sheetOverlay"
+    >
+
+        <div class="sheet">
+
+            <div class="sheet-head">
+
+                <div
+                    class="sheet-title"
+                    id="sheetTitle"
+                >
+                    —
+                </div>
+
+                <button
+                    class="close"
+                    id="sheetClose"
+                    type="button"
+                >
+                    ×
+                </button>
+
+            </div>
+
+            <div id="sheetBody"></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script src="https://cdn.socket.io/4.8.3/socket.io.min.js"></script>
+
+<script>
+(() => {
+
+    "use strict";
+
+
+    /* =====================================================
+       CONFIG
+    ===================================================== */
+
+    const API_BASE = "/api";
+
+    const KEY = {
+        deviceId:
+            "marjona_site_device_id"
+    };
+
+
+    /* =====================================================
+       STATE
+    ===================================================== */
+
+  const state = {
+    userId: null,
+    role: null,
+    name: "",
+    sheet: "",
+    menuOpen: false,
+    initialized: false,
+    socket: null
+  };
+
+
+    /* =====================================================
+       HELPERS
+    ===================================================== */
+
+    const $ = id =>
+        document.getElementById(id);
+
+
+    const screens = [
+        $("entry"),
+        $("intro"),
+        $("nameGate"),
+        $("world")
+    ];
+
+
+    function escapeHtml(value){
+
+        return String(value ?? "")
+            .replaceAll("&","&amp;")
+            .replaceAll("<","&lt;")
+            .replaceAll(">","&gt;")
+            .replaceAll('"',"&quot;")
+            .replaceAll("'","&#039;");
+    }
+
+
+    function show(id){
+
+        screens.forEach(
+            screen => {
+
+                screen.classList.toggle(
+                    "active",
+                    screen.id === id
+                );
+
+            }
+        );
+
+    }
+
+
+    function getDeviceId(){
+
+        let id =
+            localStorage.getItem(
+                KEY.deviceId
+            );
+
+        if (!id){
+
+            id =
+                window.crypto &&
+                typeof crypto.randomUUID ===
+                "function"
+
+                    ? crypto.randomUUID()
+
+                    : (
+                        Date.now() +
+                        "-" +
+                        Math.random()
+                            .toString(16)
+                            .slice(2)
+                    );
+
+            localStorage.setItem(
+                KEY.deviceId,
+                id
+            );
+
+        }
+
+        return id;
+    }
+
+
+    async function api(
+        path,
+        options = {}
+    ){
+
+        const config = {
+
+            method:
+                options.method ||
+                "GET",
+
+            headers: {
+
+                "Content-Type":
+                    "application/json"
+
+            },
+
+            credentials:
+                "same-origin"
+        };
+
+
+        if (
+            Object.prototype
+                .hasOwnProperty
+                .call(
+                    options,
+                    "body"
+                )
+        ){
+
+            config.body =
+                JSON.stringify(
+                    options.body
+                );
+        }
+
+
+        const response =
+            await fetch(
+                API_BASE + path,
+                config
+            );
+
+
+        let data = {};
+
+
+        try{
+
+            data =
+                await response.json();
+
+        }catch{
+
+            data = {};
+
+        }
+
+
+        if (!response.ok){
+
+            const error =
+                new Error(
+                    data.error ||
+                    `So‘rov bajarilmadi (${response.status}).`
+                );
+
+            error.status =
+                response.status;
+
+            error.data =
+                data;
+
+            throw error;
+        }
+
+
+        return data;
+
+    }
+
+
+    function toast(message){
+
+        let element =
+            $("toast");
+
+        if (!element){
+
+            element =
+                document.createElement(
+                    "div"
+                );
+
+            element.id =
+                "toast";
+
+            element.style.cssText = `
+                position:fixed;
+                left:50%;
+                bottom:28px;
+                z-index:200;
+                transform:translate(-50%,18px);
+                opacity:0;
+                pointer-events:none;
+                padding:11px 17px;
+                border-radius:999px;
+                border:1px solid rgba(255,255,255,.09);
+                background:rgba(15,17,24,.86);
+                backdrop-filter:blur(18px);
+                color:rgba(255,255,255,.88);
+                font-size:12px;
+                transition:.45s cubic-bezier(.22,1,.36,1);
+            `;
+
+            document.body.appendChild(
+                element
+            );
+        }
+
+
+        element.textContent =
+            message;
+
+        element.style.opacity =
+            "1";
+
+        element.style.transform =
+            "translate(-50%,0)";
+
+
+        clearTimeout(
+            toast.timer
+        );
+
+
+        toast.timer =
+            setTimeout(() => {
+
+                element.style.opacity =
+                    "0";
+
+                element.style.transform =
+                    "translate(-50%,18px)";
+
+            },2400);
+
+    }
+
+
+    function loading(
+        button,
+        value,
+        text
+    ){
+
+        if (!button) return;
+
+
+        if (value){
+
+            button.disabled =
+                true;
+
+            button.dataset.oldText =
+                button.textContent;
+
+            button.textContent =
+                text;
+
+        }else{
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                button.dataset.oldText ||
+                button.textContent;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       LOGIN
+    ===================================================== */
+
+    async function login(){
+
+        const input =
+            $("accessCode");
+
+        const error =
+            $("entryError");
+
+        const button =
+            $("entryButton");
+
+
+        const code =
+            input.value.trim();
+
+
+        error.textContent = "";
+
+
+        if (!code){
+
+            error.textContent =
+                "Kirish kodini kiriting.";
+
+            input.focus();
+
+            return;
+
+        }
+
+
+        loading(
+            button,
+            true,
+            "Tekshirilmoqda..."
+        );
+
+
+        try{
+
+            const result =
+                await api(
+                    "/login",
+                    {
+                        method:"POST",
+
+                        body:{
+                            code,
+
+                            device_id:
+                                getDeviceId()
+                        }
+                    }
+                );
+
+
+            if (
+                !result.success ||
+                !result.user
+            ){
+
+                throw new Error(
+                    "Kirish amalga oshmadi."
+                );
+
+            }
+
+
+      state.userId = result.user.id;
+      state.role = result.user.role;
+      state.name = result.user.name || "";
+
+      if (!state.socket) {
+        state.socket = io();
+
+        state.socket.on("connect", () => {
+          showToast("Real-time ulanish tayyor.");
+        });
+
+        state.socket.on("connect_error", () => {
+          showToast("Real-time ulanishda muammo bor.");
+        });
+      }
+
+      show("intro");
+
+
+            setTimeout(() => {
+
+                if (
+                    state.name.trim()
+                ){
+
+                    enterWorld();
+
+                }else{
+
+                    show(
+                        "nameGate"
+                    );
+
+                    $("nameInput")
+                        .focus();
+
+                }
+
+            },1800);
+
+
+        }catch(errorObject){
+
+            if (
+                errorObject.status ===
+                    429 &&
+                errorObject.data &&
+                errorObject.data
+                    .remaining_seconds
+            ){
+
+                const seconds =
+                    Number(
+                        errorObject.data
+                            .remaining_seconds
+                    );
+
+                const minutes =
+                    Math.floor(
+                        seconds / 60
+                    );
+
+                const rest =
+                    seconds % 60;
+
+
+                error.textContent =
+                    minutes > 0
+
+                        ? `Kirish vaqtincha yopiq:
+                           ${minutes} daq
+                           ${rest} soniya.`
+
+                        : `Kirish vaqtincha yopiq:
+                           ${rest} soniya.`;
+
+            }else{
+
+                error.textContent =
+                    errorObject.message ||
+                    "Kirish kodi noto‘g‘ri.";
+
+            }
+
+
+            input.select();
+
+        }finally{
+
+            loading(
+                button,
+                false
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       NAME
+    ===================================================== */
+
+    async function saveFirstName(){
+
+        const input =
+            $("nameInput");
+
+        const error =
+            $("nameError");
+
+        const button =
+            $("nameButton");
+
+
+        const name =
+            input.value.trim();
+
+
+        error.textContent = "";
+
+
+        if (!name){
+
+            error.textContent =
+                "Ismingizni yozing.";
+
+            input.focus();
+
+            return;
+
+        }
+
+
+        if (
+            name.length < 2
+        ){
+
+            error.textContent =
+                "Ism juda qisqa.";
+
+            input.focus();
+
+            return;
+
+        }
+
+
+        loading(
+            button,
+            true,
+            "Saqlanmoqda..."
+        );
+
+
+        try{
+
+            const result =
+                await api(
+                    "/profile/name",
+                    {
+                        method:"POST",
+
+                        body:{
+                            name,
+
+                            device_id:
+                                getDeviceId()
+                        }
+                    }
+                );
+
+
+            state.name =
+                result.name ||
+                name;
+
+
+            enterWorld();
+
+
+        }catch(errorObject){
+
+            error.textContent =
+                errorObject.message ||
+                "Ismni saqlab bo‘lmadi.";
+
+        }finally{
+
+            loading(
+                button,
+                false
+            );
+
+        }
+
+    }
+
+
+    function enterWorld(){
+
+        if (
+            !state.userId ||
+            !state.name.trim()
+        ){
+            return;
+        }
+
+
+        $("profilePill")
+            .textContent =
+                state.name;
+
+
+        $("moodQuestion")
+            .textContent =
+                `Bugun qanday
+                 kayfiyattasan,
+                 ${state.name}?`;
+
+
+        show("world");
+
+    }
+
+
+    /* =====================================================
+       MENU
+    ===================================================== */
+
+    function closeMenu(){
+
+        state.menuOpen =
+            false;
+
+        $("menuPanel")
+            .classList
+            .remove("open");
+
+    }
+
+
+    function toggleMenu(){
+
+        state.menuOpen =
+            !state.menuOpen;
+
+        $("menuPanel")
+            .classList
+            .toggle(
+                "open",
+                state.menuOpen
+            );
+
+    }
+
+
+    $("menuButton")
+        .addEventListener(
+            "click",
+            event => {
+
+                event.stopPropagation();
+
+                toggleMenu();
+
+            }
+        );
+
+
+    document.addEventListener(
+        "click",
+        event => {
+
+            if (!state.menuOpen){
+                return;
+            }
+
+
+            const panel =
+                $("menuPanel");
+
+            const button =
+                $("menuButton");
+
+
+            if (
+                panel.contains(
+                    event.target
+                ) ||
+                button.contains(
+                    event.target
+                )
+            ){
+                return;
+            }
+
+
+            closeMenu();
+
+        }
+    );
+
+
+    /* =====================================================
+       SHEETS
+    ===================================================== */
+
+    const sheets = {
+
+chat: {
+  title: "Chat",
+  html: `
+    <div class="chat-wrap">
+
+      <div id="chatMessages" class="chat-messages">
+        <div class="placeholder">
+          Xabarlar yuklanmoqda...
+        </div>
+      </div>
+
+      <div class="chat-input-row">
+        <textarea
+          id="chatInput"
+          maxlength="5000"
+          rows="1"
+          placeholder="Biror narsa yoz..."
+        ></textarea>
+
+        <button
+          id="chatSend"
+          class="soft-btn primary"
+          type="button"
+        >
+          Yuborish
+        </button>
+      </div>
+
+    </div>
+  `
+},
+
+
+        special: {
+
+            title:"Maxsus xabarlar",
+
+            html:`
+                <p>
+                    Qisqa xabarlar turli
+                    vaziyat va joylarda
+                    mayin tarzda paydo
+                    bo‘lishi mumkin.
+                </p>
+
+                <div class="placeholder">
+                    Joy, vaqt, shart va
+                    vizual javoblarni
+                    keyingi bosqichda
+                    sozlaymiz.
+                </div>
+            `
+
+        },
+
+
+        letters: {
+
+            title:"Xatlar",
+
+            html:`
+                <p>
+                    Uzunroq va samimiy
+                    xatlar shu yerda
+                    yashaydi.
+                </p>
+
+                <div class="placeholder">
+                    Shablon, ochilish vaqti,
+                    animatsiya, musiqa va
+                    kim uchun ekanini
+                    tanlash tizimi keyingi
+                    bosqichda ulanadi.
+                </div>
+            `
+
+        },
+
+
+        worlds: {
+
+            title:"Dunyolar",
+
+            html:`
+                <p>
+                    Oldindan yaratilgan
+                    dunyolar saqlanadi.
+                    Xohlasa yangi dinamik
+                    dunyoga ham kirish mumkin.
+                </p>
+
+                <div class="placeholder">
+                    Keyingi bosqichda bu joy
+                    haqiqiy interaktiv dunyo
+                    tizimiga aylanadi.
+                </div>
+            `
+
+        },
+
+
+        environment: {
+
+            title:"Muhit",
+
+            html:`
+                <p>
+                    O‘zingga yoqqan
+                    atmosferani tanla.
+                </p>
+
+                <div class="row">
+
+                    <button
+                        class="soft-btn"
+                        data-theme="midnight"
+                    >
+                        Tungi
+                    </button>
+
+                    <button
+                        class="soft-btn"
+                        data-theme="quiet"
+                    >
+                        Sokin
+                    </button>
+
+                    <button
+                        class="soft-btn"
+                        data-theme="warm"
+                    >
+                        Iliq
+                    </button>
+
+                </div>
+
+                <div class="placeholder">
+                    Muhitning server xotirasi
+                    keyingi bosqichda ulanadi.
+                </div>
+            `
+
+        },
+
+
+        profile: {
+
+            title:"Profil",
+
+            html:`
+                <p>
+                    Hozircha bu yerda
+                    faqat ism o‘zgartiriladi.
+                </p>
+
+                <div class="field">
+
+                    <label
+                        for="editName"
+                    >
+                        Ism
+                    </label>
+
+                    <input
+                        id="editName"
+                        maxlength="40"
+                        autocomplete="name"
+                        value="${escapeHtml(
+                            state.name
+                        )}"
+                    >
+
+                </div>
+
+                <div
+                    id="profileError"
+                    class="entry-error"
+                ></div>
+
+                <div class="row">
+
+                    <button
+                        class="soft-btn primary"
+                        id="saveProfile"
+                    >
+                        Saqlash
+                    </button>
+
+                </div>
+            `
+
+        }
+
+    };
+async function loadChatMessages() {
+  const box = $("chatMessages");
+  if (!box) return;
+
+  try {
+    const response = await fetch("/api/chat/messages", {
+      credentials: "same-origin"
+    });
+
+    const data = await response.json();
+
+    if (!data.ok) {
+      box.innerHTML = `
+        <div class="placeholder">
+          Chatni yuklab bo‘lmadi.
+        </div>
+      `;
+      return;
+    }
+
+    renderChatMessages(data.messages || []);
+  } catch (error) {
+    box.innerHTML = `
+      <div class="placeholder">
+        Chat server bilan ulanib bo‘lmadi.
+      </div>
+    `;
+  }
+}
+
+function renderChatMessages(messages) {
+  const box = $("chatMessages");
+  if (!box) return;
+
+  if (!messages.length) {
+    box.innerHTML = `
+      <div class="placeholder">
+        Hali xabar yo‘q. Birinchi xabarni yozing.
+      </div>
+    `;
+    return;
+  }
+
+  box.innerHTML = messages.map(message => {
+    const mine = Number(message.user_id) === Number(state.userId);
+
+    return `
+      <div class="chat-message ${mine ? "mine" : "other"}">
+        <div class="chat-message-name">
+          ${escapeHtml(message.name || "Noma'lum")}
+        </div>
+        <div class="chat-message-text">
+          ${escapeHtml(message.text || "")}
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  box.scrollTop = box.scrollHeight;
+}
+
+async function sendChatMessage() {
+  const input = $("chatInput");
+  if (!input) return;
+
+  const text = input.value.trim();
+  if (!text) return;
+
+  if (!state.socket) {
+    state.socket = io();
+  }
+
+  state.socket.emit("send_message", {
+    text: text
+  });
+
+  input.value = "";
+  input.focus();
+}
+
+    function openSheet(name){
+
+        const data =
+            sheets[name];
+
+
+        if (!data){
+            return;
+        }
+
+
+        state.sheet =
+            name;
+
+
+        $("sheetTitle")
+            .textContent =
+                data.title;
+
+
+        $("sheetBody")
+            .innerHTML =
+                data.html;
+
+
+        $("sheetOverlay")
+            .classList
+            .add("open");
+
+
+        closeMenu();
+
+        if (name === "chat"){
+
+            setTimeout(() => {
+
+                loadChatMessages();
+
+                const sendButton =
+                    $("chatSend");
+
+                const input =
+                    $("chatInput");
+
+
+                if (sendButton){
+
+                    sendButton
+                        .addEventListener(
+                            "click",
+                            sendChatMessage
+                        );
+
+                }
+
+
+                if (input){
+
+                    input
+                        .addEventListener(
+                            "keydown",
+                            event => {
+
+                                if (
+                                    event.key === "Enter" &&
+                                    !event.shiftKey
+                                ){
+
+                                    event.preventDefault();
+
+                                    sendChatMessage();
+
+                                }
+
+                            }
+                        );
+
+                }
+
+
+                if (!state.socket){
+                    state.socket = io();
+                }
+
+
+                state.socket
+                    .off("chat_message");
+
+
+                state.socket
+                    .on(
+                        "chat_message",
+                        () => {
+                            loadChatMessages();
+                        }
+                    );
+
+            }, 0);
+
+        }
+
+        const saveButton =
+            $("saveProfile");
+
+
+        if (saveButton){
+
+            saveButton
+                .addEventListener(
+                    "click",
+                    saveProfile
+                );
+
+        }
+
+
+        document
+            .querySelectorAll(
+                "[data-theme]"
+            )
+            .forEach(
+                button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            applyTheme(
+                                button.dataset.theme
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+
+    function closeSheet(){
+
+        $("sheetOverlay")
+            .classList
+            .remove("open");
+
+        state.sheet = "";
+
+    }
+
+
+    async function saveProfile(){
+
+        const input =
+            $("editName");
+
+        const error =
+            $("profileError");
+
+        const button =
+            $("saveProfile");
+
+
+        if (
+            !input ||
+            !error ||
+            !button
+        ){
+            return;
+        }
+
+
+        const name =
+            input.value.trim();
+
+
+        error.textContent = "";
+
+
+        if (
+            name.length < 2
+        ){
+
+            error.textContent =
+                "Ism juda qisqa.";
+
+            input.focus();
+
+            return;
+
+        }
+
+
+        loading(
+            button,
+            true,
+            "Saqlanmoqda..."
+        );
+
+
+        try{
+
+            const result =
+                await api(
+                    "/profile/name",
+                    {
+                        method:"POST",
+
+                        body:{
+                            name,
+
+                            device_id:
+                                getDeviceId()
+                        }
+                    }
+                );
+
+
+            state.name =
+                result.name ||
+                name;
+
+
+            $("profilePill")
+                .textContent =
+                    state.name;
+
+
+            $("moodQuestion")
+                .textContent =
+                `Bugun qanday
+                 kayfiyattasan,
+                 ${state.name}?`;
+
+
+            toast(
+                "Ism saqlandi."
+            );
+
+
+            openSheet(
+                "profile"
+            );
+
+
+        }catch(errorObject){
+
+            if (
+                errorObject.status ===
+                401
+            ){
+
+                error.textContent =
+                    "Sessiya tugagan. Qayta kirish kerak.";
+
+            }else{
+
+                error.textContent =
+                    errorObject.message ||
+                    "Ismni saqlab bo‘lmadi.";
+
+            }
+
+        }finally{
+
+            loading(
+                button,
+                false
+            );
+
+        }
+
+    }
+
+
+    $("sheetClose")
+        .addEventListener(
+            "click",
+            closeSheet
+        );
+
+
+    $("sheetOverlay")
+        .addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target ===
+                    $("sheetOverlay")
+                ){
+
+                    closeSheet();
+
+                }
+
+            }
+        );
+
+
+    document
+        .querySelectorAll(
+            "[data-sheet]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        openSheet(
+                            button.dataset.sheet
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+    $("profileButton")
+        .addEventListener(
+            "click",
+            () => {
+
+                openSheet(
+                    "profile"
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       MOOD
+    ===================================================== */
+
+    document
+        .querySelectorAll(
+            "[data-mood]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        const mood =
+                            button.dataset.mood;
+
+
+                        const note =
+                            $("centerNote");
+
+
+                        if (
+                            mood ===
+                            "Sho‘x"
+                        ){
+
+                            note.textContent =
+                                "bugun biroz boshqacha";
+
+                        }else if(
+                            mood ===
+                            "Tinch"
+                        ){
+
+                            note.textContent =
+                                "bugun shoshilmaymiz";
+
+                        }else{
+
+                            note.textContent =
+                                "hammasi joyida";
+
+                        }
+
+
+                        note.style.opacity =
+                            ".95";
+
+
+                        setTimeout(
+                            () => {
+
+                                note.style.opacity =
+                                    ".75";
+
+                            },
+                            2200
+                        );
+
+
+                        toast(
+                            "Bugungi kayfiyat saqlandi."
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       CENTRAL OBJECT
+    ===================================================== */
+
+    $("centerHit")
+        .addEventListener(
+            "click",
+            () => {
+
+                const note =
+                    $("centerNote");
+
+
+                const options = [
+
+                    "Ba’zi narsalar o‘z-o‘zidan paydo bo‘ladi.",
+
+                    "Bu yer hali o‘zini to‘liq ko‘rsatgani yo‘q.",
+
+                    "Shoshilma. Atrofga yana bir qarab ko‘r.",
+
+                    "Bugungi muhit bugun tugamaydi.",
+
+                    "Hamma narsa birinchi ko‘ringanidek emas."
+
+                ];
+
+
+                note.textContent =
+                    options[
+                        Math.floor(
+                            Math.random()
+                            * options.length
+                        )
+                    ];
+
+
+                note.animate(
+                    [
+                        {
+                            opacity:.25,
+                            transform:
+                                "translate(-50%,0) scale(.98)"
+                        },
+
+                        {
+                            opacity:1,
+                            transform:
+                                "translate(-50%,0) scale(1)"
+                        }
+                    ],
+                    {
+                        duration:650,
+
+                        easing:
+                            "cubic-bezier(.22,1,.36,1)"
+                    }
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       THEME
+    ===================================================== */
+
+    function applyTheme(theme){
+
+        const root =
+            document.documentElement;
+
+
+        if (
+            theme ===
+            "midnight"
+        ){
+
+            root.style.setProperty(
+                "--accent",
+                "#aeb3d7"
+            );
+
+            root.style.setProperty(
+                "--accent2",
+                "#7c86bd"
+            );
+
+            document.body.style
+                .background =
+                "#0a0c12";
+
+        }else if(
+            theme ===
+            "warm"
+        ){
+
+            root.style.setProperty(
+                "--accent",
+                "#d6ab93"
+            );
+
+            root.style.setProperty(
+                "--accent2",
+                "#ab8f74"
+            );
+
+            document.body.style
+                .background =
+                "#110e0d";
+
+        }else{
+
+            root.style.setProperty(
+                "--accent",
+                "#c4aaa0"
+            );
+
+            root.style.setProperty(
+                "--accent2",
+                "#9f91a8"
+            );
+
+            document.body.style
+                .background =
+                "#0e0d11";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       ESC
+    ===================================================== */
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key !==
+                "Escape"
+            ){
+                return;
+            }
+
+
+            if (
+                $("sheetOverlay")
+                    .classList
+                    .contains("open")
+            ){
+
+                closeSheet();
+
+            }else if(
+                state.menuOpen
+            ){
+
+                closeMenu();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       START
+    ===================================================== */
+
+    getDeviceId();
+
+
+    $("entryButton")
+        .addEventListener(
+            "click",
+            login
+        );
+
+
+    $("accessCode")
+        .addEventListener(
+            "keydown",
+            event => {
+
+                if (
+                    event.key ===
+                    "Enter"
+                ){
+
+                    login();
+
+                }
+
+            }
+        );
+
+
+    $("nameButton")
+        .addEventListener(
+            "click",
+            saveFirstName
+        );
+
+
+    $("nameInput")
+        .addEventListener(
+            "keydown",
+            event => {
+
+                if (
+                    event.key ===
+                    "Enter"
+                ){
+
+                    saveFirstName();
+
+                }
+
+            }
+        );
+
+})();
+</script>
+
+</body>
+</html>

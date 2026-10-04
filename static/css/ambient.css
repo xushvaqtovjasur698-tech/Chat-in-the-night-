@@ -1,0 +1,202 @@
+.ambient {
+    position: fixed;
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+    z-index: 0;
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(215, 163, 164, 0.055),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 80% 75%,
+            rgba(156, 145, 198, 0.055),
+            transparent 32%
+        );
+
+    animation:
+        ambientBreath 14s ease-in-out infinite;
+}
+
+
+.ambient::before,
+.ambient::after {
+    content: "";
+
+    position: absolute;
+
+    width: 55vmax;
+    height: 55vmax;
+
+    border-radius: 50%;
+
+    filter: blur(80px);
+
+    opacity: 0.18;
+
+    pointer-events: none;
+}
+
+
+.ambient::before {
+    top: -28vmax;
+    left: -18vmax;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(215, 163, 164, 0.22),
+            transparent 68%
+        );
+
+    animation:
+        ambientDriftOne 22s ease-in-out infinite alternate;
+}
+
+
+.ambient::after {
+    right: -24vmax;
+    bottom: -30vmax;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(156, 145, 198, 0.20),
+            transparent 68%
+        );
+
+    animation:
+        ambientDriftTwo 27s ease-in-out infinite alternate;
+}
+
+
+.ambient-dust {
+    position: absolute;
+    inset: 0;
+
+    overflow: hidden;
+}
+
+
+.ambient-dust::before,
+.ambient-dust::after {
+    content: "";
+
+    position: absolute;
+
+    inset: -20%;
+
+    background-image:
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.20) 0 1px,
+            transparent 1.5px
+        );
+
+    background-size:
+        140px 140px;
+
+    opacity: 0.10;
+
+    animation:
+        dustMove 32s linear infinite;
+}
+
+
+.ambient-dust::after {
+    background-size:
+        210px 210px;
+
+    opacity: 0.06;
+
+    animation-duration: 48s;
+
+    animation-direction: reverse;
+}
+
+
+@keyframes ambientBreath {
+
+    0%,
+    100% {
+        opacity: 0.82;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.018);
+    }
+}
+
+
+@keyframes ambientDriftOne {
+
+    0% {
+        transform:
+            translate3d(-3%, -2%, 0)
+            scale(0.96);
+    }
+
+    100% {
+        transform:
+            translate3d(9%, 7%, 0)
+            scale(1.08);
+    }
+}
+
+
+@keyframes ambientDriftTwo {
+
+    0% {
+        transform:
+            translate3d(4%, 5%, 0)
+            scale(1);
+    }
+
+    100% {
+        transform:
+            translate3d(-8%, -6%, 0)
+            scale(1.10);
+    }
+}
+
+
+@keyframes dustMove {
+
+    0% {
+        transform:
+            translate3d(0, 0, 0)
+            rotate(0deg);
+    }
+
+    50% {
+        transform:
+            translate3d(2%, -1%, 0)
+            rotate(1deg);
+    }
+
+    100% {
+        transform:
+            translate3d(-2%, 2%, 0)
+            rotate(0deg);
+    }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ambient,
+    .ambient::before,
+    .ambient::after,
+    .ambient-dust::before,
+    .ambient-dust::after {
+        animation: none;
+    }
+}

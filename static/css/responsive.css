@@ -1,0 +1,322 @@
+@media (max-width: 1100px) {
+
+    .top-bar {
+        padding:
+            20px 22px;
+    }
+
+
+    .sheet {
+        width:
+            min(720px, 100%);
+    }
+}
+
+
+@media (max-width: 800px) {
+
+    .entry-title {
+        font-size:
+            clamp(44px, 11vw, 68px);
+    }
+
+
+    .center-object {
+        width:
+            clamp(150px, 26vw, 190px);
+    }
+
+
+    .center-note {
+        top:
+            calc(50% + 125px);
+    }
+
+
+    .sheet-overlay {
+        padding:
+            14px;
+    }
+
+
+    .sheet {
+        max-height: 86vh;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    body {
+        min-width: 0;
+    }
+
+
+    .entry-wrap {
+        padding:
+            24px 20px;
+    }
+
+
+    .entry-title {
+        font-size:
+            clamp(42px, 14vw, 60px);
+    }
+
+
+    .entry-sub {
+        max-width:
+            340px;
+
+        font-size: 14px;
+    }
+
+
+    .center-object {
+        width: 170px;
+    }
+
+
+    .center-note {
+        top:
+            calc(50% + 118px);
+
+        width:
+            calc(100% - 44px);
+
+        font-size: 12px;
+    }
+
+
+    .top-bar {
+        padding:
+            15px 16px;
+    }
+
+
+    .main-menu {
+        left: 14px;
+
+        width:
+            calc(100vw - 28px);
+    }
+
+
+    .menu-item {
+        min-height: 48px;
+    }
+
+
+    .sheet-overlay {
+        align-items: flex-end;
+
+        padding:
+            8px;
+    }
+
+
+    .sheet {
+        width: 100%;
+
+        max-height: 90vh;
+
+        border-radius:
+            24px 24px 12px 12px;
+    }
+
+
+    .sheet-head {
+        min-height: 62px;
+
+        padding:
+            0 16px;
+    }
+
+
+    .sheet-head h2 {
+        font-size: 17px;
+    }
+
+
+    .sheet-body {
+        max-height:
+            calc(90vh - 62px);
+
+        padding:
+            15px;
+    }
+
+
+    .chat-bubble {
+        max-width: 86%;
+    }
+
+
+    .chat-composer {
+        padding-top: 10px;
+    }
+
+
+    .chat-send {
+        min-width: 60px;
+    }
+}
+
+
+@media (max-width: 420px) {
+
+    .entry-wrap {
+        padding:
+            20px 16px;
+    }
+
+
+    .entry-title {
+        font-size:
+            42px;
+    }
+
+
+    .entry-sub {
+        font-size: 13px;
+    }
+
+
+    .entry-gate {
+        width: 100%;
+    }
+
+
+    .menu-button {
+        width: 40px;
+        height: 40px;
+    }
+
+
+    .profile-pill {
+        max-width: 135px;
+
+        min-height: 36px;
+
+        padding:
+            0 12px;
+
+        font-size: 11px;
+    }
+
+
+    .center-object {
+        width: 150px;
+    }
+
+
+    .center-note {
+        top:
+            calc(50% + 106px);
+
+        font-size: 11px;
+    }
+
+
+    .sheet-overlay {
+        padding:
+            5px;
+    }
+
+
+    .sheet {
+        border-radius:
+            22px 22px 10px 10px;
+    }
+
+
+    .sheet-body {
+        padding:
+            13px;
+    }
+
+
+    .chat-bubble {
+        max-width: 90%;
+
+        font-size: 12px;
+    }
+
+
+    .chat-input {
+        font-size: 12px;
+    }
+}
+
+
+@media (orientation: landscape) and (max-height: 600px) {
+
+    .entry-wrap {
+        align-items: flex-start;
+
+        overflow-y: auto;
+
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+
+    .entry-core {
+        padding:
+            20px 0;
+    }
+
+
+    .entry-mark {
+        width: 54px;
+        height: 54px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .entry-sub {
+        margin-top: 14px;
+    }
+
+
+    .entry-gate {
+        margin-top: 20px;
+    }
+
+
+    .sheet {
+        max-height: 94vh;
+    }
+
+
+    .sheet-body {
+        max-height:
+            calc(94vh - 62px);
+    }
+}
+
+
+@media (hover: none) {
+
+    .menu-item:hover,
+    .profile-pill:hover,
+    .menu-button:hover,
+    .soft-btn:hover,
+    .entry-button:hover,
+    .chat-send:hover,
+    .letter-card:hover,
+    .letter-card-action:hover {
+        transform: none;
+    }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+    }
+}

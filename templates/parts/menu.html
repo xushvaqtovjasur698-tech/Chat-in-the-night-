@@ -1,0 +1,142 @@
+<div id="topBar" class="top-bar">
+
+    <button
+        id="menuButton"
+        class="menu-button"
+        type="button"
+        aria-label="Menyu"
+        aria-expanded="false"
+    >
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <button
+        id="profilePill"
+        class="profile-pill"
+        type="button"
+    >
+        <span id="profilePillName">Profil</span>
+    </button>
+
+</div>
+
+
+<nav
+    id="mainMenu"
+    class="main-menu"
+    aria-hidden="true"
+>
+
+    <div class="menu-inner">
+
+        <button
+            class="menu-item"
+            type="button"
+            data-sheet="chat"
+        >
+            <span class="menu-item-title">Chat</span>
+            <span
+                id="chatBadge"
+                class="menu-badge"
+                hidden
+            >
+                0
+            </span>
+        </button>
+
+        <button
+            class="menu-item"
+            type="button"
+            data-sheet="special"
+        >
+            <span class="menu-item-title">
+                Maxsus xabarlar
+            </span>
+        </button>
+
+        <button
+            class="menu-item"
+            type="button"
+            data-sheet="letters"
+        >
+            <span class="menu-item-title">
+                Xatlar
+            </span>
+        </button>
+
+        <button
+            class="menu-item"
+            type="button"
+            data-sheet="worlds"
+        >
+            <span class="menu-item-title">
+                Dunyolar
+            </span>
+        </button>
+
+        <button
+            class="menu-item"
+            type="button"
+            data-sheet="environment"
+        >
+            <span class="menu-item-title">
+                Muhit
+            </span>
+        </button>
+
+        <button
+            class="menu-item"
+            type="button"
+            data-sheet="profile"
+        >
+            <span class="menu-item-title">
+                Profil
+            </span>
+        </button>
+
+    </div>
+
+</nav>
+
+
+<div
+    id="sheetOverlay"
+    class="sheet-overlay"
+    aria-hidden="true"
+>
+
+    <section
+        id="sheet"
+        class="sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="sheetTitle"
+    >
+
+        <div class="sheet-head">
+
+            <h2 id="sheetTitle">
+                Bo‘lim
+            </h2>
+
+            <button
+                id="sheetClose"
+                class="sheet-close"
+                type="button"
+                aria-label="Yopish"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div
+            id="sheetBody"
+            class="sheet-body"
+        ></div>
+
+    </section>
+
+</div>

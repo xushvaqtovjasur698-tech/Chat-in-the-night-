@@ -1,0 +1,809 @@
+/* =========================================================
+   LOGIN / ENTRY SCREEN
+   ========================================================= */
+
+#entry {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: 10;
+    background: #07151a;
+    color: #fff;
+}
+
+/* ---------------------------------------------------------
+   Background image
+   --------------------------------------------------------- */
+
+.entry-scene {
+    position: absolute;
+    inset: -4%;
+    overflow: hidden;
+
+    background-image: url("../images/login-ocean.png");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    transform: translate3d(0, 0, 0) scale(1.04);
+
+    will-change: transform;
+}
+
+/* Image protection / cinematic overlay */
+.entry-scene::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(4, 12, 15, 0.62) 0%,
+            rgba(4, 12, 15, 0.30) 38%,
+            rgba(4, 12, 15, 0.12) 70%,
+            rgba(4, 12, 15, 0.28) 100%
+        );
+
+    pointer-events: none;
+}
+
+/* Soft bottom gradient */
+.entry-scene::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.18) 0%,
+            transparent 30%,
+            transparent 64%,
+            rgba(0, 0, 0, 0.42) 100%
+        );
+
+    pointer-events: none;
+}
+
+/* Eski kosmik dekorlarni o'chiramiz */
+.entry-scene > * {
+    display: none !important;
+}
+
+/* ---------------------------------------------------------
+   Main content
+   --------------------------------------------------------- */
+
+.entry-content {
+    position: absolute;
+    z-index: 5;
+
+    left: 50%;
+    top: 50%;
+
+    width: min(430px, calc(100vw - 40px));
+
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+
+    padding: 34px 32px 30px;
+
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    border-radius: 28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.16),
+            rgba(255, 255, 255, 0.055)
+        );
+
+    backdrop-filter: blur(18px) saturate(125%);
+    -webkit-backdrop-filter: blur(18px) saturate(125%);
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.38),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+
+    animation: entryCardIn 900ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+/* ---------------------------------------------------------
+   Logo / mark
+   --------------------------------------------------------- */
+
+.entry-mark-wrap {
+    position: relative;
+
+    width: 64px;
+    height: 64px;
+
+    margin-bottom: 18px;
+}
+
+.entry-mark-aura {
+    position: absolute;
+    inset: -15px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    filter: blur(18px);
+
+    opacity: 0.8;
+}
+
+.entry-mark {
+    position: relative;
+
+    width: 64px;
+    height: 64px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255, 255, 255, 0.42);
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            rgba(255, 255, 255, 0.34),
+            rgba(255, 255, 255, 0.07) 45%,
+            rgba(0, 0, 0, 0.12) 100%
+        );
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.3),
+        0 12px 35px rgba(0,0,0,.25);
+}
+
+.entry-mark-ring {
+    position: absolute;
+    inset: 7px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255,255,255,.22);
+}
+
+.entry-mark-ring.ring-two {
+    inset: 15px;
+}
+
+.entry-mark-ring.ring-three {
+    inset: 23px;
+}
+
+.entry-mark-core {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 8px;
+    height: 8px;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.95);
+
+    box-shadow:
+        0 0 16px rgba(255,255,255,.7);
+}
+
+/* ---------------------------------------------------------
+   Text
+   --------------------------------------------------------- */
+
+.entry-kicker {
+    margin-bottom: 8px;
+
+    font-size: 10px;
+    line-height: 1;
+
+    font-weight: 700;
+    letter-spacing: 0.28em;
+
+    color: rgba(255,255,255,.72);
+
+    text-transform: uppercase;
+}
+
+.entry-title {
+    margin: 0;
+
+    font-size: clamp(30px, 5vw, 42px);
+    line-height: 1.05;
+
+    font-weight: 500;
+    letter-spacing: -0.035em;
+
+    color: #fff;
+
+    text-shadow:
+        0 3px 20px rgba(0,0,0,.25);
+}
+
+.entry-sub {
+    max-width: 340px;
+
+    margin: 13px auto 25px;
+
+    font-size: 14px;
+    line-height: 1.65;
+
+    color: rgba(255,255,255,.78);
+}
+
+/* ---------------------------------------------------------
+   Login fields
+   --------------------------------------------------------- */
+
+.entry-gate {
+    width: 100%;
+}
+
+.entry-input-shell {
+    position: relative;
+
+    width: 100%;
+
+    margin-bottom: 12px;
+}
+
+.entry-input-shell::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.16),
+            rgba(255,255,255,.04)
+        );
+
+    pointer-events: none;
+}
+
+.entry-input-shell:focus-within {
+    box-shadow:
+        0 0 0 3px rgba(255,255,255,.08),
+        0 10px 35px rgba(0,0,0,.15);
+}
+
+.entry-input {
+    position: relative;
+
+    width: 100%;
+    height: 54px;
+
+    box-sizing: border-box;
+
+    padding: 0 17px;
+
+    border: 1px solid rgba(255,255,255,.24);
+    border-radius: 15px;
+
+    outline: none;
+
+    background: rgba(0,0,0,.18);
+
+    color: #fff;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    transition:
+        border-color .25s ease,
+        background .25s ease,
+        box-shadow .25s ease;
+}
+
+.entry-input::placeholder {
+    color: rgba(255,255,255,.62);
+}
+
+.entry-input:focus {
+    border-color: rgba(255,255,255,.55);
+
+    background: rgba(0,0,0,.25);
+
+    box-shadow:
+        0 0 0 3px rgba(255,255,255,.06);
+}
+
+/* ---------------------------------------------------------
+   Error
+   --------------------------------------------------------- */
+
+.entry-error {
+    min-height: 20px;
+
+    margin: 2px 4px 7px;
+
+    font-size: 12px;
+    line-height: 1.4;
+
+    color: rgba(255, 185, 185, .95);
+
+    text-align: left;
+}
+
+/* ---------------------------------------------------------
+   Button
+   --------------------------------------------------------- */
+
+.entry-button {
+    position: relative;
+
+    width: 100%;
+    height: 54px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    border: 1px solid rgba(255,255,255,.32);
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.88),
+            rgba(255,255,255,.68)
+        );
+
+    color: #102025;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.20),
+        inset 0 1px 0 rgba(255,255,255,.7);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+.entry-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 16px 36px rgba(0,0,0,.28),
+        inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+.entry-button:active {
+    transform: translateY(0) scale(.985);
+}
+
+.entry-button-arrow {
+    font-size: 18px;
+    line-height: 1;
+
+    transition: transform .25s ease;
+}
+
+.entry-button:hover .entry-button-arrow {
+    transform: translateX(4px);
+}
+
+/* ---------------------------------------------------------
+   Bottom hint
+   --------------------------------------------------------- */
+
+.entry-hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-top: 18px;
+
+    font-size: 10px;
+    letter-spacing: .08em;
+
+    color: rgba(255,255,255,.55);
+}
+
+.entry-hint span {
+    display: block;
+
+    width: 20px;
+    height: 1px;
+
+    background: rgba(255,255,255,.25);
+}
+
+/* ---------------------------------------------------------
+   Corner decorations
+   --------------------------------------------------------- */
+
+.entry-corner {
+    position: absolute;
+
+    z-index: 6;
+
+    bottom: 24px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: rgba(255,255,255,.48);
+
+    font-size: 9px;
+    letter-spacing: .18em;
+
+    pointer-events: none;
+}
+
+.entry-corner-left {
+    left: 28px;
+}
+
+.entry-corner-right {
+    right: 28px;
+}
+
+.entry-corner i {
+    display: block;
+
+    width: 24px;
+    height: 1px;
+
+    background: rgba(255,255,255,.24);
+}
+
+/* ---------------------------------------------------------
+   Enter animation
+   --------------------------------------------------------- */
+
+#entry.entry-entering .entry-content {
+    animation: entryExit 800ms cubic-bezier(.7, 0, .3, 1) both;
+}
+
+#entry.entry-entering .entry-scene {
+    transition:
+        transform 900ms cubic-bezier(.7, 0, .3, 1),
+        filter 900ms ease;
+
+    filter: brightness(1.08) saturate(1.08);
+}
+
+/* ---------------------------------------------------------
+   Animations
+   --------------------------------------------------------- */
+
+@keyframes entryCardIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, calc(-50% + 25px)) scale(.97);
+        filter: blur(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes entryExit {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.035);
+        filter: blur(5px);
+    }
+}
+
+/* ---------------------------------------------------------
+   Mobile
+   --------------------------------------------------------- */
+
+@media (max-width: 600px) {
+
+    .entry-scene {
+        inset: -7%;
+        background-position: center center;
+    }
+
+    .entry-content {
+        width: calc(100vw - 28px);
+
+        padding:
+            28px
+            22px
+            25px;
+
+        border-radius: 24px;
+    }
+
+    .entry-mark-wrap,
+    .entry-mark {
+        width: 56px;
+        height: 56px;
+    }
+
+    .entry-title {
+        font-size: 32px;
+    }
+
+    .entry-sub {
+        font-size: 13px;
+        margin-bottom: 21px;
+    }
+
+    .entry-input,
+    .entry-button {
+        height: 52px;
+    }
+
+    .entry-corner {
+        display: none;
+    }
+}
+
+/* ---------------------------------------------------------
+   Reduced motion
+   --------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .entry-content,
+    #entry.entry-entering .entry-content {
+        animation: none !important;
+    }
+
+    .entry-button,
+    .entry-input,
+    .entry-button-arrow {
+        transition: none !important;
+    }
+}
+/* =========================================================
+   CREATE ACCOUNT
+   ========================================================= */
+
+.entry-create-account {
+    width: 100%;
+    height: 48px;
+
+    margin-top: 10px;
+
+    border: 0;
+    border-radius: 14px;
+
+    background: transparent;
+
+    color: rgba(255, 255, 255, 0.78);
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        color .25s ease,
+        background .25s ease,
+        transform .25s ease;
+}
+
+.entry-create-account:hover {
+    color: #fff;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    transform: translateY(-1px);
+}
+
+.entry-create-account:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   LOGIN INPUTS — KATTAROQ
+   ========================================================= */
+
+.entry-input-shell {
+    margin-bottom: 14px;
+}
+
+.entry-input {
+    height: 62px;
+
+    padding: 0 20px;
+
+    border-radius: 17px;
+
+    font-size: 15px;
+}
+
+.entry-button {
+    height: 62px;
+
+    border-radius: 17px;
+
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   LOGIN PAYTIDA GLOBAL MENU VA PROFIL YASHIRINADI
+   ========================================================= */
+
+/*
+   #entry active bo'lsa, asosiy oynaning
+   menyusi va profil qismi ko'rinmaydi.
+*/
+
+body:has(#entry.active) .top-bar {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+
+/*
+   Agar menyu top-bar'dan alohida bo'lsa,
+   login paytida uni ham yashiramiz.
+*/
+
+body:has(#entry.active) .menu-toggle,
+body:has(#entry.active) .menu-button,
+body:has(#entry.active) .profile-pill {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+
+/*
+   Asosiy oynaga o'tgandan keyin
+   hammasi yana normal ko'rinadi.
+*/
+
+.top-bar {
+    transition:
+        opacity .35s ease,
+        visibility .35s ease;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .entry-input {
+        height: 58px;
+    }
+
+    .entry-button {
+        height: 58px;
+    }
+
+    .entry-create-account {
+        height: 46px;
+    }
+}
+/* =========================================================
+   LOGIN PANEL — IMAGE POSITION
+   ========================================================= */
+
+.entry-content {
+    /*
+     * Rasm ichidagi tayyor login oynasiga
+     * moslash uchun markaziy panelni biroz
+     * yuqoriga ko'taramiz.
+     */
+    top: 50%;
+
+    width: min(460px, calc(100vw - 40px));
+
+    padding: 30px 34px 28px;
+
+    background: rgba(8, 20, 23, 0.34);
+
+    border: 1px solid rgba(255, 255, 255, 0.18);
+
+    backdrop-filter: blur(12px) saturate(115%);
+    -webkit-backdrop-filter: blur(12px) saturate(115%);
+}
+
+
+/* Login maydonlarini rasm ichidagi
+   maydonlarga mosroq qilamiz */
+
+.entry-input-shell {
+    width: 100%;
+
+    margin-bottom: 15px;
+}
+
+.entry-input {
+    height: 64px;
+
+    padding: 0 22px;
+
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.10);
+
+    border: 1px solid rgba(255, 255, 255, 0.30);
+
+    font-size: 15px;
+}
+
+
+/* Kirish tugmasi */
+
+.entry-button {
+    height: 64px;
+
+    border-radius: 16px;
+
+    margin-top: 2px;
+}
+
+
+/* Yangi hisob yaratish */
+
+.entry-create-account {
+    margin-top: 9px;
+
+    color: rgba(255, 255, 255, 0.82);
+
+    background: rgba(255, 255, 255, 0.035);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    border-radius: 14px;
+}
+
+.entry-create-account:hover {
+    background: rgba(255, 255, 255, 0.10);
+}
+
+
+/* Mobil */
+
+@media (max-width: 600px) {
+
+    .entry-content {
+        width: calc(100vw - 24px);
+
+        padding: 26px 20px 24px;
+    }
+
+    .entry-input,
+    .entry-button {
+        height: 58px;
+    }
+}

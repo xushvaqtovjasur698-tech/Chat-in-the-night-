@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+
+<html lang="uz">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Bir kichik olam</title>
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/base.css') }}"
+    >
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/ambient.css') }}"
+    >
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/entry.css') }}"
+    >
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/intro.css') }}"
+    >
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/world.css') }}"
+    >
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/menu.css') }}"
+    >
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/sheet.css') }}"
+    >
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/chat.css') }}"
+    >
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/letters.css') }}"
+    >
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/responsive.css') }}"
+    >
+    <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/main-background.css') }}"
+    >
+
+    <!-- Create account modal -->
+    <style>
+
+        .create-account-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 24px;
+
+            background:
+                rgba(5, 8, 14, .38);
+
+            backdrop-filter:
+                blur(10px);
+
+            -webkit-backdrop-filter:
+                blur(10px);
+
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+
+            transition:
+                opacity .35s ease,
+                visibility .35s ease;
+        }
+
+
+        .create-account-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+
+        .create-account-modal {
+            position: relative;
+
+            width: min(460px, 100%);
+
+            padding: 42px 38px 36px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, .13);
+
+            border-radius: 28px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(22, 28, 38, .88),
+                    rgba(9, 13, 20, .92)
+                );
+
+            box-shadow:
+                0 35px 90px rgba(0, 0, 0, .48),
+                inset 0 1px 0 rgba(255, 255, 255, .06);
+
+            transform:
+                translateY(22px)
+                scale(.97);
+
+            transition:
+                transform .4s cubic-bezier(.22, 1, .36, 1);
+        }
+
+
+        .create-account-overlay.active
+        .create-account-modal {
+            transform:
+                translateY(0)
+                scale(1);
+        }
+
+
+        .create-account-close {
+            position: absolute;
+
+            top: 16px;
+            right: 18px;
+
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 0;
+            border-radius: 50%;
+
+            background:
+                rgba(255, 255, 255, .06);
+
+            color:
+                rgba(255, 255, 255, .72);
+
+            font-size: 24px;
+            line-height: 1;
+
+            cursor: pointer;
+
+            transition:
+                background .2s ease,
+                color .2s ease,
+                transform .2s ease;
+        }
+
+
+        .create-account-close:hover {
+            background:
+                rgba(255, 255, 255, .11);
+
+            color:
+                white;
+
+            transform:
+                rotate(90deg);
+        }
+
+
+        .create-account-kicker {
+            margin-bottom: 9px;
+
+            color:
+                rgba(255, 255, 255, .42);
+
+            font-size: 11px;
+            font-weight: 700;
+
+            letter-spacing:
+                .18em;
+
+            text-transform:
+                uppercase;
+        }
+
+
+        .create-account-title {
+            margin: 0;
+
+            color:
+                rgba(255, 255, 255, .94);
+
+            font-size:
+                clamp(27px, 5vw, 34px);
+
+            font-weight: 650;
+
+            letter-spacing:
+                -.025em;
+        }
+
+
+        .create-account-sub {
+            margin:
+                11px 0 28px;
+
+            color:
+                rgba(255, 255, 255, .52);
+
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+
+        .create-account-form {
+            display: flex;
+            flex-direction: column;
+
+            gap: 13px;
+        }
+
+
+        .create-account-input-shell {
+            position: relative;
+        }
+
+
+        .create-account-input {
+            width: 100%;
+            box-sizing: border-box;
+
+            height: 60px;
+
+            padding:
+                0 18px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, .10);
+
+            border-radius: 15px;
+
+            outline: none;
+
+            background:
+                rgba(255, 255, 255, .055);
+
+            color:
+                rgba(255, 255, 255, .94);
+
+            font-family: inherit;
+            font-size: 16px;
+
+            transition:
+                border-color .22s ease,
+                background .22s ease,
+                box-shadow .22s ease;
+        }
+
+
+        .create-account-input::placeholder {
+            color:
+                rgba(255, 255, 255, .38);
+        }
+
+
+        .create-account-input:focus {
+            border-color:
+                rgba(255, 255, 255, .28);
+
+            background:
+                rgba(255, 255, 255, .075);
+
+            box-shadow:
+                0 0 0 4px
+                rgba(255, 255, 255, .035);
+        }
+
+
+        .create-account-error {
+            min-height: 20px;
+
+            margin-top: 2px;
+
+            color:
+                #ff9da9;
+
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+
+        .create-account-submit {
+            width: 100%;
+            height: 58px;
+
+            margin-top: 4px;
+
+            border: 0;
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, .94),
+                    rgba(224, 229, 236, .94)
+                );
+
+            color:
+                #11151c;
+
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 14px 35px rgba(0, 0, 0, .22);
+
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease;
+        }
+
+
+        .create-account-submit:hover {
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 18px 42px rgba(0, 0, 0, .3);
+        }
+
+
+        .create-account-submit:active {
+            transform:
+                scale(.985);
+        }
+
+
+        .create-account-back {
+            width: 100%;
+
+            margin-top: 14px;
+
+            padding: 9px;
+
+            border: 0;
+            background: transparent;
+
+            color:
+                rgba(255, 255, 255, .48);
+
+            font-family: inherit;
+            font-size: 13px;
+
+            cursor: pointer;
+
+            transition:
+                color .2s ease;
+        }
+
+
+        .create-account-back:hover {
+            color:
+                rgba(255, 255, 255, .82);
+        }
+
+
+        @media (max-width: 520px) {
+
+            .create-account-overlay {
+                padding: 16px;
+            }
+
+            .create-account-modal {
+                padding:
+                    36px 22px 25px;
+
+                border-radius: 23px;
+            }
+
+            .create-account-input {
+                height: 56px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- Ambient -->
+
+    <div
+        class="ambient"
+        aria-hidden="true"
+    ></div>
+
+
+    <!-- Dust -->
+
+    <div
+        class="dust"
+        aria-hidden="true"
+    ></div>
+
+
+    <!-- Entry -->
+
+    <section id="entry" class="screen active">
+
+        <div
+            class="entry-scene"
+            aria-hidden="true"
+        ></div>
+
+
+        <div class="entry-content">
+
+            <div
+                class="entry-mark-wrap"
+                aria-hidden="true"
+            >
+
+                <div class="entry-mark-aura"></div>
+
+                <div class="entry-mark">
+
+                    <div
+                        class="entry-mark-ring ring-one"
+                    ></div>
+
+                    <div
+                        class="entry-mark-ring ring-two"
+                    ></div>
+
+                    <div
+                        class="entry-mark-ring ring-three"
+                    ></div>
+
+                    <div class="entry-mark-core">
+                        <span></span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="entry-kicker">
+                XUSH KELIBSIZ
+            </div>
+
+
+            <h1 class="entry-title">
+                Hisobingizga kiring
+            </h1>
+
+
+            <p class="entry-sub">
+                Davom etish uchun hisob ma'lumotlaringizni kiriting.
+            </p>
+
+
+            <div class="entry-gate">
+
+                <div class="entry-input-shell">
+
+                    <input
+                        id="loginName"
+                        class="entry-input"
+                        type="text"
+                        autocomplete="username"
+                        maxlength="60"
+                        placeholder="Ism"
+                    >
+
+                </div>
+
+
+                <div class="entry-input-shell">
+
+                    <input
+                        id="loginPassword"
+                        class="entry-input"
+                        type="password"
+                        autocomplete="current-password"
+                        maxlength="100"
+                        placeholder="Parol"
+                    >
+
+                </div>
+
+
+                <div
+                    id="entryError"
+                    class="entry-error"
+                    aria-live="polite"
+                ></div>
+
+
+                <button
+                    id="entryButton"
+                    class="entry-button"
+                    type="button"
+                >
+
+                    <span class="entry-button-text">
+                        Kirish
+                    </span>
+
+                    <span
+                        class="entry-button-arrow"
+                        aria-hidden="true"
+                    >
+                        →
+                    </span>
+
+                </button>
+
+
+                <button
+                    id="createAccountButton"
+                    class="entry-create-account"
+                    type="button"
+                >
+                    Yangi hisob yaratish
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="entry-corner entry-corner-left"
+        >
+            <span>01</span>
+            <i></i>
+        </div>
+
+
+        <div
+            class="entry-corner entry-corner-right"
+        >
+            <i></i>
+            <span>ENTRY</span>
+        </div>
+
+    </section>
+
+
+    <!-- Create account -->
+
+    <div
+        id="createAccountOverlay"
+        class="create-account-overlay"
+        aria-hidden="true"
+    >
+
+        <section
+            class="create-account-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="createAccountTitle"
+        >
+
+            <button
+                id="createAccountClose"
+                class="create-account-close"
+                type="button"
+                aria-label="Yopish"
+            >
+                ×
+            </button>
+
+
+            <div class="create-account-kicker">
+                YANGI BOSHLANISH
+            </div>
+
+
+            <h2
+                id="createAccountTitle"
+                class="create-account-title"
+            >
+                Hisob yarating
+            </h2>
+
+
+            <p class="create-account-sub">
+                O‘zingiz uchun ism va parol tanlang.
+            </p>
+
+
+            <div class="create-account-form">
+
+                <div class="create-account-input-shell">
+
+                    <input
+                        id="createName"
+                        class="create-account-input"
+                        type="text"
+                        autocomplete="username"
+                        maxlength="60"
+                        placeholder="Ism"
+                    >
+
+                </div>
+
+
+                <div class="create-account-input-shell">
+
+                    <input
+                        id="createPassword"
+                        class="create-account-input"
+                        type="password"
+                        autocomplete="new-password"
+                        maxlength="100"
+                        placeholder="Parol"
+                    >
+
+                </div>
+
+
+                <div class="create-account-input-shell">
+
+                    <input
+                        id="createPasswordConfirm"
+                        class="create-account-input"
+                        type="password"
+                        autocomplete="new-password"
+                        maxlength="100"
+                        placeholder="Parolni tasdiqlang"
+                    >
+
+                </div>
+
+
+                <div
+                    id="createAccountError"
+                    class="create-account-error"
+                    aria-live="polite"
+                ></div>
+
+
+                <button
+                    id="createAccountSubmit"
+                    class="create-account-submit"
+                    type="button"
+                >
+                    Hisob yaratish
+                </button>
+
+
+                <button
+                    id="createAccountBack"
+                    class="create-account-back"
+                    type="button"
+                >
+                    ← Ortga qaytish
+                </button>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- Name -->
+
+    <section id="nameGate" class="screen">
+
+        <div class="name-wrap">
+
+            <div class="name-content">
+
+                <div class="name-kicker">
+                    Endi seni tanishim kerak.
+                </div>
+
+                <h1 class="name-title">
+                    Isming nima?
+                </h1>
+
+                <p class="name-sub">
+                    Bu ism shu kichik olamda seni ifodalab turadi.
+                </p>
+
+                <div class="name-form">
+
+                    <input
+                        id="nameInput"
+                        class="name-input"
+                        type="text"
+                        autocomplete="name"
+                        maxlength="40"
+                        placeholder="Isming..."
+                    >
+
+                    <div
+                        id="nameError"
+                        class="name-error"
+                        aria-live="polite"
+                    ></div>
+
+                    <button
+                        id="nameButton"
+                        class="name-button"
+                        type="button"
+                    >
+                        Davom etish
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- World -->
+
+    <section id="world" class="screen">
+<nav
+    id="sceneNavigation"
+    class="scene-navigation"
+    aria-label="Asosiy bo‘limlar"
+>
+
+    <button
+        class="scene-nav-item"
+        type="button"
+        data-sheet="chat"
+        aria-label="Chat"
+    >
+        <span class="scene-nav-icon">◉</span>
+        <span class="scene-nav-label">Chat</span>
+
+        <span
+            id="sceneChatBadge"
+            class="scene-nav-badge"
+            hidden
+        >0</span>
+    </button>
+
+
+    <button
+        class="scene-nav-item"
+        type="button"
+        data-sheet="special"
+        aria-label="Maxsus xabarlar"
+    >
+        <span class="scene-nav-icon">✦</span>
+        <span class="scene-nav-label">Maxsus xabarlar</span>
+    </button>
+
+
+    <button
+        class="scene-nav-item"
+        type="button"
+        data-sheet="letters"
+        aria-label="Xatlar"
+    >
+        <span class="scene-nav-icon">♡</span>
+        <span class="scene-nav-label">Xatlar</span>
+    </button>
+
+
+    <button
+        class="scene-nav-item"
+        type="button"
+        data-sheet="worlds"
+        aria-label="Dunyolar"
+    >
+        <span class="scene-nav-icon">◌</span>
+        <span class="scene-nav-label">Dunyolar</span>
+    </button>
+
+
+    <button
+        class="scene-nav-item"
+        type="button"
+        data-sheet="environment"
+        aria-label="Muhit"
+    >
+        <span class="scene-nav-icon">◒</span>
+        <span class="scene-nav-label">Muhit</span>
+    </button>
+
+
+    <button
+        class="scene-nav-item"
+        type="button"
+        data-sheet="profile"
+        aria-label="Profil"
+    >
+        <span class="scene-nav-icon">○</span>
+        <span class="scene-nav-label">Profil</span>
+    </button>
+
+</nav>
+        <div class="world-layer">
+
+            <div
+                class="world-atmosphere"
+                aria-hidden="true"
+            ></div>
+
+
+            <div
+                id="centerHit"
+                class="center-object"
+                role="button"
+                tabindex="0"
+                aria-label="Markazdagi obyekt"
+            >
+
+                <div class="center-aura"></div>
+                <div class="center-core"></div>
+
+            </div>
+
+
+            <div
+                id="centerNote"
+                class="center-note"
+                aria-live="polite"
+            >
+                Ba'zi narsalarni shoshmasdan kashf qilish kerak.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Menu -->
+
+    <div
+        id="topBar"
+        class="top-bar"
+    >
+
+        <button
+            id="menuButton"
+            class="menu-button"
+            type="button"
+            aria-label="Menyu"
+            aria-expanded="false"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+
+        <button
+            id="profilePill"
+            class="profile-pill"
+            type="button"
+        >
+            <span id="profilePillName">
+                Profil
+            </span>
+        </button>
+
+    </div>
+
+
+    <nav
+        id="mainMenu"
+        class="main-menu"
+        aria-hidden="true"
+    >
+
+        <div class="menu-inner">
+
+            <button
+                class="menu-item"
+                type="button"
+                data-sheet="chat"
+            >
+                <span class="menu-item-title">
+                    Chat
+                </span>
+
+                <span
+                    id="chatBadge"
+                    class="menu-badge"
+                    hidden
+                >
+                    0
+                </span>
+
+            </button>
+
+
+            <button
+                class="menu-item"
+                type="button"
+                data-sheet="special"
+            >
+                <span class="menu-item-title">
+                    Maxsus xabarlar
+                </span>
+            </button>
+
+
+            <button
+                class="menu-item"
+                type="button"
+                data-sheet="letters"
+            >
+                <span class="menu-item-title">
+                    Xatlar
+                </span>
+            </button>
+
+
+            <button
+                class="menu-item"
+                type="button"
+                data-sheet="worlds"
+            >
+                <span class="menu-item-title">
+                    Dunyolar
+                </span>
+            </button>
+
+
+            <button
+                class="menu-item"
+                type="button"
+                data-sheet="environment"
+            >
+                <span class="menu-item-title">
+                    Muhit
+                </span>
+            </button>
+
+
+            <button
+                class="menu-item"
+                type="button"
+                data-sheet="profile"
+            >
+                <span class="menu-item-title">
+                    Profil
+                </span>
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <div
+        id="sheetOverlay"
+        class="sheet-overlay"
+        aria-hidden="true"
+    >
+
+        <section
+            id="sheet"
+            class="sheet"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="sheetTitle"
+        >
+
+            <div class="sheet-head">
+
+                <h2 id="sheetTitle">
+                    Bo‘lim
+                </h2>
+
+                <button
+                    id="sheetClose"
+                    class="sheet-close"
+                    type="button"
+                    aria-label="Yopish"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div
+                id="sheetBody"
+                class="sheet-body"
+            ></div>
+
+        </section>
+
+    </div>
+
+
+    <!-- Socket.IO -->
+
+    <script
+        src="https://cdn.socket.io/4.8.3/socket.io.min.js"
+    ></script>
+
+
+    <!-- JavaScript -->
+
+    <script
+        src="{{ url_for('static', filename='js/core.js') }}"
+    ></script>
+
+    <script
+        src="{{ url_for('static', filename='js/api.js') }}"
+    ></script>
+
+    <script
+        src="{{ url_for('static', filename='js/entry.js') }}"
+    ></script>
+
+    <script
+        src="{{ url_for('static', filename='js/chat.js') }}"
+    ></script>
+
+    <script
+        src="{{ url_for('static', filename='js/letters.js') }}"
+    ></script>
+
+    <script
+        src="{{ url_for('static', filename='js/worlds.js') }}"
+    ></script>
+
+    <script
+        src="{{ url_for('static', filename='js/world.js') }}"
+    ></script>
+
+    <script 
+        src="{{ url_for('static', filename='js/main-background.js') }}"
+    ></script>
+
+    <script
+        src="{{ url_for('static', filename='js/environment.js') }}"
+    ></script>
+
+    <script
+        src="{{ url_for('static', filename='js/profile.js') }}"
+    ></script>
+
+    <script
+        src="{{ url_for('static', filename='js/special.js') }}"
+    ></script>
+
+    <script
+        src="{{ url_for('static', filename='js/menu.js') }}"
+    ></script>
+
+    <script
+        src="{{ url_for('static', filename='js/auth.js') }}"
+    ></script>
+
+
+    <!-- Create account UI -->
+
+    <script>
+
+        (() => {
+
+            const overlay =
+                document.getElementById(
+                    "createAccountOverlay"
+                );
+
+            const openButton =
+                document.getElementById(
+                    "createAccountButton"
+                );
+
+            const closeButton =
+                document.getElementById(
+                    "createAccountClose"
+                );
+
+            const backButton =
+                document.getElementById(
+                    "createAccountBack"
+                );
+
+
+            function openCreateAccount() {
+
+                overlay.classList.add("active");
+
+                overlay.setAttribute(
+                    "aria-hidden",
+                    "false"
+                );
+
+                setTimeout(() => {
+
+                    const input =
+                        document.getElementById(
+                            "createName"
+                        );
+
+                    if (input) {
+                        input.focus();
+                    }
+
+                }, 250);
+
+            }
+
+
+            function closeCreateAccount() {
+
+                overlay.classList.remove("active");
+
+                overlay.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+                const error =
+                    document.getElementById(
+                        "createAccountError"
+                    );
+
+                if (error) {
+                    error.textContent = "";
+                }
+
+            }
+
+
+            openButton.addEventListener(
+                "click",
+                openCreateAccount
+            );
+
+
+            closeButton.addEventListener(
+                "click",
+                closeCreateAccount
+            );
+
+
+            backButton.addEventListener(
+                "click",
+                closeCreateAccount
+            );
+
+
+            overlay.addEventListener(
+                "click",
+                event => {
+
+                    if (
+                        event.target === overlay
+                    ) {
+                        closeCreateAccount();
+                    }
+
+                }
+            );
+
+
+            document.addEventListener(
+                "keydown",
+                event => {
+
+                    if (
+                        event.key === "Escape" &&
+                        overlay.classList.contains("active")
+                    ) {
+                        closeCreateAccount();
+                    }
+
+                }
+            );
+
+
+            window.closeCreateAccount =
+                closeCreateAccount;
+
+        })();
+
+    </script>
+
+
+</body>
+
+</html>

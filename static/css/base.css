@@ -1,0 +1,171 @@
+:root {
+    --bg: #0c0c10;
+    --bg2: #13131a;
+
+    --text: #f5f1ec;
+    --muted: rgba(245, 241, 236, 0.62);
+
+    --accent: #d7a3a4;
+    --accent2: #9c91c6;
+
+    --panel: rgba(19, 19, 26, 0.72);
+    --border: rgba(245, 241, 236, 0.10);
+
+    --shadow:
+        0 20px 80px rgba(0, 0, 0, 0.38);
+
+    --radius: 24px;
+    --transition: 420ms cubic-bezier(.22, .61, .36, 1);
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(156, 145, 198, 0.08),
+            transparent 38%
+        ),
+        var(--bg);
+
+    color: var(--text);
+
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    overflow: hidden;
+}
+
+
+button,
+input,
+textarea {
+    font: inherit;
+}
+
+
+button {
+    color: inherit;
+}
+
+
+.screen {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity 700ms ease,
+        visibility 700ms ease;
+}
+
+
+.screen.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+
+button {
+    border: 0;
+    background: none;
+    cursor: pointer;
+}
+
+
+input,
+textarea {
+    outline: none;
+}
+
+
+::selection {
+    background: rgba(215, 163, 164, 0.24);
+    color: var(--text);
+}
+
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+
+.soft-btn {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    padding: 12px 20px;
+
+    background: rgba(255, 255, 255, 0.04);
+
+    color: var(--text);
+
+    transition:
+        transform 220ms ease,
+        background 220ms ease,
+        border-color 220ms ease;
+}
+
+
+.soft-btn:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+
+.soft-btn.primary {
+    border-color: rgba(215, 163, 164, 0.28);
+    background: rgba(215, 163, 164, 0.10);
+}
+
+
+.soft-btn.primary:hover {
+    background: rgba(215, 163, 164, 0.16);
+}
+
+
+@media (max-width: 700px) {
+
+    :root {
+        --radius: 20px;
+    }
+
+    body {
+        overflow: hidden;
+    }
+}
